@@ -1,0 +1,53 @@
+---
+import { CollectionEntry, getCollection } from "astro:content";
+import BlogLayout from "../../layouts/BlogLayout.astro";
+
+export async function getStaticPaths() {
+    const blogs = await getCollection("blogs");
+    return blogs.map((blog) => ({
+        params: { slug: blog.slug },
+        props: { blog },
+    }));
+}
+
+interface Props {
+    blog: CollectionEntry<"blogs">;
+}
+const { blog } = Astro.props;
+
+const { Content, headings } = await blog.render();
+
+function formatDate(date: Date) {
+    var dayOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][date.getDay()];
+    var month = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+    ][date.getMonth()];
+    var day = date.getDate();
+    var year = date.getFullYear();
+
+    return dayOfWeek + ", " + month + " " + day + ", " + year;
+}
+---
+
+<BlogLayout>
+    <div
+        class="lg:prose-lg max-w-none xl:prose-2xl prose dark:prose-invert prose-slate prose-h1:bg-gradient-to-r prose-h1:py-2 prose-h1:from-emerald-500 prose-h1:via-blue-600 prose-h1:to-purple-500 prose-h1:inline-block prose-h1:text-transparent prose-h1:bg-clip-text prose-h1:justify-center prose-h2:text-emerald-500"
+    >
+        <h4 class="text-slate-500">{formatDate(blog.data.date)}</h4>
+        <article>
+            <h1>{blog.data.title}</h1>
+            <Content />
+        </article>
+    </div>
+</BlogLayout>
