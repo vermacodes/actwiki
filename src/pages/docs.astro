@@ -1,0 +1,29 @@
+---
+import { getCollection } from "astro:content";
+import PostCard from "../components/PostCard";
+import DocLayout from "../layouts/DocLayout.astro";
+
+const docs = await getCollection("docs");
+---
+
+<DocLayout title="docs" docs={docs}>
+    <meta http-equiv="refresh" content="0; url =
+    introduction" />
+    <!-- <h1 class="text-3xl md:text-6xl mb-2 md:mb-4">Docs</h1>
+    <p class="text-xl text-slate-600 dark:text-slate-400 md:text-2xl mb-8 md:mb-16">
+        Learn more about using ACT Labs. How to use, contribute labs or contribute to tool itself.
+    </p>
+    {
+        docs.map((doc) => {
+            return (
+                <PostCard
+                    title={doc.data.title}
+                    description={doc.data.description}
+                    slug={doc.slug}
+                    date={doc.data.date}
+                    tags={doc.data.tags}
+                />
+            );
+        })
+    } -->
+</DocLayout>

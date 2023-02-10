@@ -1,0 +1,23 @@
+---
+import type { CollectionEntry } from "astro:content";
+import Navbar from "../components/Navbar";
+import ThemeToggle from "../components/ThemeToggle";
+import Layout from "../layouts/Layout.astro";
+
+export interface Props {
+    title: string;
+    docs?: CollectionEntry<"docs">[];
+}
+
+const { title, docs } = Astro.props;
+---
+
+<Layout title={title} docs={docs}>
+    <Navbar docs={docs} />
+    <div class="text-slate-900 dark:text-slate-100 flex flex-col rounded-3xl bg-slate-100 dark:bg-slate-900 md:p-8">
+        <div class="flex justify-end py-2 h-2">
+            <ThemeToggle client:only />
+        </div>
+        <slot />
+    </div>
+</Layout>

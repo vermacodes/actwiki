@@ -1,51 +1,45 @@
 ---
-import Navbar from '../components/Navbar';
+import type { CollectionEntry } from "astro:content";
 
 export interface Props {
-	title: string;
+    title: string;
+    docs?: CollectionEntry<"docs">[];
 }
 
-const { title } = Astro.props;
+const { title, docs } = Astro.props;
 ---
 
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
-	</head>
-	<body class="bg-slate-100 dark:bg-slate-900 flex flex-col min-h-screen p-4">
-		<header class="m-8">
-			<Navbar client:visible />
-		</header>
-		<main class="flex-grow">
-			<div class="text-slate-900 dark:text-slate-100 flex flex-col justify-center md:mx-12 xl:mx-48 2xl:mx-96 md:mt-5 xl:mt-10 2xl:mt-20 rounded-3xl bg-slate-100 dark:bg-slate-900 p-8">
-				<slot/>
-			</div>
-		</main>
-		<footer class="border-t border-slate-200 dark:border-slate-800">
-			<h2 class="text-xm flex justify-center text-slate-500 p-2">ashisverma.dev</h2>
-		</footer>
-	</body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width" />
+        <link rel="icon" type="image/svg+xml" href="/actlabs_logo.svg" />
+        <meta name="generator" content={Astro.generator} />
+        <title>{title}</title>
+    </head>
+    <body class="bg-slate-100 dark:bg-slate-900 min-h-screen mr-2 md:mr-12 md:ml-6 xl:ml-24 xl:mr-48">
+        <header></header>
+        <main class="flex flex-row">
+            <slot />
+        </main>
+    </body>
 </html>
 <script is:inline>
-	const theme = (() => {
-	  if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
-		return localStorage.getItem("theme");
-	  }
-	  if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-		return "dark";
-	  }
-	  return "light";
-	})();
-  
-	if (theme === "light") {
-	  document.documentElement.classList.remove("dark");
-	} else {
-	  document.documentElement.classList.add("dark");
-	}
-	window.localStorage.setItem("theme", theme);
+    const theme = (() => {
+        if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
+            return localStorage.getItem("theme");
+        }
+        if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+            return "dark";
+        }
+        return "light";
+    })();
+
+    if (theme === "light") {
+        document.documentElement.classList.remove("dark");
+    } else {
+        document.documentElement.classList.add("dark");
+    }
+    window.localStorage.setItem("theme", theme);
 </script>

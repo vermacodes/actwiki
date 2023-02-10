@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FaMoon, FaSun } from "react-icons/fa";
+import Checkbox from "../Checkbox";
 
 export default function ThemeToggle() {
     const [theme, setTheme] = useState<string>(localStorage.getItem("theme") ?? "light");
@@ -19,11 +19,12 @@ export default function ThemeToggle() {
     }, [theme]);
 
     return (
-        <button
-            className="items-center justify-center border-b-2 border-transparent py-1 text-2xl hover:border-b-slate-900 dark:hover:border-b-slate-100"
-            onClick={handleClick}
-        >
-            {theme === "dark" ? <FaSun /> : <FaMoon />}
-        </button>
+        <Checkbox
+            checked={theme === "dark"}
+            id="darkmode"
+            disabled={false}
+            handleOnChange={handleClick}
+            label={"Dark"}
+        />
     );
 }

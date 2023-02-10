@@ -1,0 +1,60 @@
+---
+import { CollectionEntry, getCollection } from "astro:content";
+import DocLayout from "../../layouts/DocLayout.astro";
+
+export async function getStaticPaths() {
+    const docs = await getCollection("docs", ({ data }) => {
+        return !data.draft && data.date < new Date();
+    });
+    return docs.map((doc) => ({
+        params: { slug: doc.slug },
+        props: { doc },
+    }));
+}
+
+const docs = await getCollection("docs");
+
+interface Props {
+    doc: CollectionEntry<"docs">;
+}
+
+const { doc } = Astro.props;
+
+const { Content, headings } = await doc.render();
+
+function formatDate(date: Date) {
+    var dayOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][date.getDay()];
+    var month = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+    ][date.getMonth()];
+    var day = date.getDate();
+    var year = date.getFullYear();
+
+    return dayOfWeek + ", " + month + " " + day + ", " + year;
+}
+---
+
+<DocLayout title={doc.data.title} docs={docs}>
+    <div
+        class="lg:prose-lg xl:prose-2xl prose dark:prose-invert prose-slate prose-h1:bg-gradient-to-r prose-h1:py-2 prose-h1:from-emerald-500 prose-h1:via-blue-600 prose-h1:to-purple-500 prose-h1:inline-block prose-h1:text-transparent prose-h1:bg-clip-text prose-h2:text-emerald-500"
+    >
+        <!-- <a class="border-b-2 border-transparent py-1 no-underline" href="/docs"> ← All Docs</a> -->
+
+        <article>
+            <h1>{doc.data.title}</h1>
+            <p class="text-slate-500 text-sm">{doc.data.author + " - " + formatDate(doc.data.date)}</p>
+            <Content />
+        </article>
+    </div>
+</DocLayout>
