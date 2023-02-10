@@ -9,8 +9,8 @@ prevDoc: {
   display: Getting Started
 }
 nextDoc: {
-  link: builder,
-  display: Builder
+  link: templates,
+  display: Saved and Public Labs
 }
 ---
 

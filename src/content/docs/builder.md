@@ -14,9 +14,34 @@ nextDoc: {
 }
 ---
 
-[Builder](https://actlabs.azureedge.net/builder) is used to build a [lab](#lab)
+[Builder](https://actlabs.azureedge.net/builder) is used to build a [lab](#lab). This is what makes the tool powerful. Read more about the concept of a lab, extension script and using builder.
 
-### Lab
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Lab](#lab)
+- [Template](#template)
+- [Extension Script](#extension-script)
+  - [How this works?](#how-this-works)
+    - [Deploy (Extend) Mode](#deploy-extend-mode)
+    - [Destroy Mode](#destroy-mode)
+  - [Environment Variables](#environment-variables)
+  - [Shared Functions](#shared-functions)
+- [Lab Lifecycle](#lab-lifecycle)
+  - [Build](#build)
+    - [Plan](#plan)
+    - [Plan Flow](#plan-flow)
+  - [Deploy](#deploy)
+    - [Deployment Fow](#deployment-fow)
+  - [Destroy](#destroy)
+    - [Destroy Flow](#destroy-flow)
+  - [Saving your lab](#saving-your-lab)
+  - [Sharing Lab](#sharing-lab)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+## Lab
 
 In simplest term a Lab is a scenario that you would want to create. For example, you may want to create an AKS cluster with following specifications.
 
@@ -90,7 +115,7 @@ Lab consists of two important parts.
 - [Template](#template)
 - [Extension Script](#extension-script)
 
-### Template
+## Template
 
 Template is a collection of objects and is part of lab object. For example in the object share above, following is the template.
 
@@ -132,7 +157,7 @@ Go server running in docker container translates this template to TF_VAR environ
 
 Template is already providing us greater flexibility in acheiving complex scenarios with ease. But, its not doing it all. And, probably will never be able to. To achieve more flexibility, we have [Extension Script](#extension-script).
 
-### Extension Script
+## Extension Script
 
 Extension script gives you the ability to go beyond what this tool can do out of the box and be really creative. You can use this to do everything that can be done using Azure CLI. Some examples use cases are:
 
@@ -141,14 +166,14 @@ Extension script gives you the ability to go beyond what this tool can do out of
 - Adding additional node pools to your cluster.
 - Ordering food online for free. Well, not that, but you get the idea.
 
-#### How this works?
+### How this works?
 
 This script runs in two primary modes.
 
 - Deploy
 - Destroy
 
-##### Deploy (Extend) Mode
+#### Deploy (Extend) Mode
 
 When click '**Deploy**' button, the base infra is deployed using terraform code. After that completes successfully, extension script is deployed. Both these steps happen automatically in order. Since extension script runs after terraform apply is finished. It has access to terraform output.
 When running in deploy (extend) mode, 'extend' function is called.
@@ -160,9 +185,9 @@ function extend() {
 }
 ```
 
-_See [deployment flow](#deployment-fow)_
+*See [deployment flow](#deployment-fow)*
 
-##### Destroy Mode
+#### Destroy Mode
 
 When click '**Destroy**' button, first, extension script runs in destroy mode, and lets you delete the resources that were created in deploy mode. Or do any other activity that must be done gracefully before resources are destroyed.
 When running in destroy mode, 'destroy' function is called.
@@ -174,9 +199,9 @@ function destroy() {
 }
 ```
 
-_See [destroy flow](#destroy-flow)_
+*See [destroy flow](#destroy-flow)*
 
-#### Environment Variables
+### Environment Variables
 
 Following environment variables are available for script to use. There may be other variables that are not in this list. Any terraform output is automatically added as an even variable for extension script. For example, terraform output "resource_group" is automatically added as an env variable "RESOURCE_GROUP". You can see entire terraform output in the deployment logs.
 | Variable | Description |
@@ -193,7 +218,7 @@ Following environment variables are available for script to use. There may be ot
 | CLUSTER_MSI_ID | Clusters managed identity ID. |
 | KUBELET_MSI_ID | Kubelet's managed identity |
 
-#### Shared Functions
+### Shared Functions
 
 There are few things that almost all scripts will do. We are aware of these and added them as shared functions which are available to the script and are ready for use.
 
@@ -454,7 +479,7 @@ EOF
 }
 ```
 
-### Lab Lifecycle
+## Lab Lifecycle
 
 ```mermaid
 sequenceDiagram
@@ -466,19 +491,19 @@ App ->> Server: Deploy
 App ->> Server: Destroy
 ```
 
-#### Build
+### Build
 
 A lab is built using [Builder](/builder). Flags in builder can be used to build a tempalte and if needed, extension script can be used to extend it even furhter. A lab is not [saved](#saving-your-lab) by default.
 
 #### Plan
 
-You can do a [`terraform plan`](https://developer.hashicorp.com/terraform/cli/commands/plan) using '_Plan_' button in [Builder](/builder). This will generate a terrafrom plan and you will be able to see output.
+You can do a [`terraform plan`](https://developer.hashicorp.com/terraform/cli/commands/plan) using '*Plan*' button in [Builder](/builder). This will generate a terrafrom plan and you will be able to see output.
 
 I highly recommend to run a plan before deploymnet just to be sure you dont accidently delete stuff you dont intend to.
 
-_**Note**: [Extension script](#extension-script) is not tested/executed in plan mode_
+***Note**: [Extension script](#extension-script) is not tested/executed in plan mode*
 
-##### Plan Flow
+#### Plan Flow
 
 ```mermaid
 sequenceDiagram
@@ -486,13 +511,13 @@ App ->> Server : Terraform Plan
 Server ->> App: Success
 ```
 
-#### Deploy
+### Deploy
 
 In a nutshell this will deploy the lab. This is a two step process.
 
-- [`terraform apply`](https://developer.hashicorp.com/terraform/cli/commands/apply) - when you hit _'Deploy'_ button, first, terraform part of the lab is deployed. The lab object contains 'template' object. These are the values that server will translate to terraform variables and set them as environment variables in [server](/server). After the terraform apply is successfuly, [execention script](#extension-script) will be executed.
+- [`terraform apply`](https://developer.hashicorp.com/terraform/cli/commands/apply) - when you hit *'Deploy'* button, first, terraform part of the lab is deployed. The lab object contains 'template' object. These are the values that server will translate to terraform variables and set them as environment variables in [server](/server). After the terraform apply is successfuly, [execention script](#extension-script) will be executed.
 
-##### Deployment Fow
+#### Deployment Fow
 
 ```mermaid
 sequenceDiagram
@@ -509,13 +534,13 @@ Server ->> App: Success
 
 - [extension script](#extension-script) - extension script is a huge topic, its covered in its own section.
 
-_**Note:** Its important that you [Plan](#plan) before deploymnet to avoid accidently deleting stuff that you dont want to._
+***Note:** Its important that you [Plan](#plan) before deploymnet to avoid accidently deleting stuff that you dont want to.*
 
-#### Destroy
+### Destroy
 
-You can destroy the resources created with this tool by using '_Destroy_' button. It executes [extension script](#destroy-mode) in destroy mode and then executes [terraform destroy](https://developer.hashicorp.com/terraform/cli/commands/destroy)
+You can destroy the resources created with this tool by using '*Destroy*' button. It executes [extension script](#destroy-mode) in destroy mode and then executes [terraform destroy](https://developer.hashicorp.com/terraform/cli/commands/destroy)
 
-##### Destroy Flow
+#### Destroy Flow
 
 ```mermaid
 sequenceDiagram
@@ -530,9 +555,9 @@ Azure ->> Server: Success
 Server ->> App: Success
 ```
 
-#### Saving your lab
+### Saving your lab
 
-You should be able to recreate simple scenarios easily. But for complex scenarios especially when you end up using [Extension Script](#extension-script) then it becomes absolutely necessary to save your work. You can use '_Save_' button in [Builder](/builder) to save your work. You will be presented with a form and following information will be requested.
+You should be able to recreate simple scenarios easily. But for complex scenarios especially when you end up using [Extension Script](#extension-script) then it becomes absolutely necessary to save your work. You can use '*Save*' button in [Builder](/builder) to save your work. You will be presented with a form and following information will be requested.
 
 - **Name:**: I know it's hard to name stuff. But try your best to give one liner introduction of your lab.
 - **Description**: Add as much information as humanly possible. It's important that you get the idea of what this lab does when you come back later after a month and shouldn't have to read the extension script. trust me, it's important.
@@ -543,9 +568,9 @@ You should be able to recreate simple scenarios easily. But for complex scenario
 - **Update**: This will update the existing lab.
 - **Save as New**: This will save as a new lab. Use this to make a copy of your existing lab.
 
-#### Sharing Lab
+### Sharing Lab
 
-- **Export** - You can use '_Export_' button in [Builder](/builder) to export lab to a file, which then can be shared with anyone, and they can use this to import and use.
-- **Import** - You can use '_Import_' button in [Builder](/builder) to import lab from a file. You can then [Save](#saving-your-lab) it in your templates.
+- **Export** - You can use '*Export*' button in [Builder](/builder) to export lab to a file, which then can be shared with anyone, and they can use this to import and use.
+- **Import** - You can use '*Import*' button in [Builder](/builder) to import lab from a file. You can then [Save](#saving-your-lab) it in your templates.
 - **[Shared Templates](https://actlabs.azureedge.net/templates)** - There are some pre-built labs that you can use to get a head start.
-- **Contributing to shared templates.** - _Coming soon_
+- **Contributing to shared templates.** - *Coming soon*

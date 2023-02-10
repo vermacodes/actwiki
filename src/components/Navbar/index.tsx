@@ -34,6 +34,9 @@ export default function Navbar({ docs }: Props) {
                     <a href="server">Server on Docker</a>
                 </li>
                 <li className="hover:text-emerald-500">
+                    <a href="templates">Saved and Public Labs</a>
+                </li>
+                <li className="hover:text-emerald-500">
                     <a href="builder">Lab Builder</a>
                 </li>
                 <li className="hover:text-emerald-500">

@@ -15,4 +15,6 @@ else
     sa=$1
 fi
 
+doctoc src/content/docs/*.md
+
 npm run build && cd dist && az storage blob upload-batch -d '$web' --account-name ${sa} -s "." --overwrite --subscription ACT-CSS-Readiness
