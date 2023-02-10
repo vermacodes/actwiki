@@ -4,6 +4,10 @@ description: I am too lazy to think of a description.
 author: Ashish Verma
 date: 2023-02-08T09:00:00
 tags: ["aks", "tooling"]
+nextDoc: {
+  link: getting-started,
+  display: Getting Started
+}
 ---
 
 

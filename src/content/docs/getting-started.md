@@ -4,6 +4,14 @@ description: I am too lazy to think of a description.
 author: Ashish Verma
 date: 2023-02-08T09:00:00
 tags: ["aks", "tooling"]
+prevDoc: {
+  link: introduction,
+  display: Introduction
+}
+nextDoc: {
+  link: server,
+  display: Server
+}
 ---
 
 To get started, headover to [ACT Labs Start](https://actlabs.azureedge.net/start) page and follow the simple setup wizard.

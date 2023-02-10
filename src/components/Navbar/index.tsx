@@ -30,6 +30,21 @@ export default function Navbar({ docs }: Props) {
                 <li className="hover:text-emerald-500">
                     <a href="getting-started">Getting Started</a>
                 </li>
+                <li className="hover:text-emerald-500">
+                    <a href="server">Server on Docker</a>
+                </li>
+                <li className="hover:text-emerald-500">
+                    <a href="builder">Lab Builder</a>
+                </li>
+                <li className="hover:text-emerald-500">
+                    <a href="learning">Learning (L100)</a>
+                </li>
+                <li className="hover:text-emerald-500">
+                    <a href="labs">Labs for Learning</a>
+                </li>
+                <li className="hover:text-emerald-500">
+                    <a href="mock-cases">Mock Cases</a>
+                </li>
             </ul>
         </nav>
     );

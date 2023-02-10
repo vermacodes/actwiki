@@ -47,7 +47,7 @@ function formatDate(date: Date) {
 
 <DocLayout title={doc.data.title} docs={docs}>
     <div
-        class="lg:prose-lg xl:prose-2xl prose dark:prose-invert prose-slate prose-h1:bg-gradient-to-r prose-h1:py-2 prose-h1:from-emerald-500 prose-h1:via-blue-600 prose-h1:to-purple-500 prose-h1:inline-block prose-h1:text-transparent prose-h1:bg-clip-text prose-h2:text-emerald-500"
+        class="flex flex-col lg:prose-lg xl:prose-2xl prose dark:prose-invert prose-slate prose-h1:bg-gradient-to-r prose-h1:py-2 prose-h1:from-emerald-500 prose-h1:via-blue-600 prose-h1:to-purple-500 prose-h1:inline-block prose-h1:text-transparent prose-h1:bg-clip-text prose-h2:text-emerald-500"
     >
         <!-- <a class="border-b-2 border-transparent py-1 no-underline" href="/docs"> ← All Docs</a> -->
 
@@ -56,5 +56,29 @@ function formatDate(date: Date) {
             <p class="text-slate-500 text-sm">{doc.data.author + " - " + formatDate(doc.data.date)}</p>
             <Content />
         </article>
+        <div class="grid grid-cols-2 p-2 mt-8 md:gap-x-8">
+            {
+                doc.data.prevDoc ? (
+                    <a
+                        class="flex justify-start md:hover:bg-slate-200 md:py-4 px-2 md:dark:hover:bg-emerald-500 md:dark:hover:bg-opacity-10 gap-y-4 space-y-4 rounded-2xl w-full hover:text-emerald-500 no-underline text-slate-500"
+                        href={doc.data.prevDoc.link}
+                    >
+                        {"← " + doc.data.prevDoc.display}
+                    </a>
+                ) : (
+                    <div />
+                )
+            }
+            {
+                doc.data.nextDoc && (
+                    <a
+                        class="flex justify-end md:hover:bg-slate-200 md:py-4 px-2 md:dark:hover:bg-emerald-500 md:dark:hover:bg-opacity-10 gap-y-4 space-y-4 rounded-2xl w-full hover:text-emerald-500 no-underline text-slate-500"
+                        href={doc.data.nextDoc.link}
+                    >
+                        {doc.data.nextDoc.display + " →"}
+                    </a>
+                )
+            }
+        </div>
     </div>
 </DocLayout>

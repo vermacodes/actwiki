@@ -8,6 +8,18 @@ const docSchema = defineCollection({
         date: z.date().transform((str) => new Date(str)),
         author: z.enum(["Ashish Verma", "Andrew Schull"]),
         tags: z.array(z.string().optional()),
+        nextDoc: z
+            .object({
+                link: z.string(),
+                display: z.string(),
+            })
+            .optional(),
+        prevDoc: z
+            .object({
+                link: z.string(),
+                display: z.string(),
+            })
+            .optional(),
     }),
 });
 
