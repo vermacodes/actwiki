@@ -47,16 +47,15 @@ function formatDate(date: Date) {
 
 <DocLayout title={doc.data.title} docs={docs}>
     <div
-        class="flex flex-col lg:prose-lg xl:prose-xl prose dark:prose-invert prose-slate prose-h1:bg-gradient-to-r prose-h1:py-2 prose-h1:from-emerald-500 prose-h1:via-blue-600 prose-h1:to-purple-500 prose-h1:inline-block prose-h1:text-transparent prose-h1:bg-clip-text prose-h2:text-emerald-500 hover:prose-a:text-emerald-500"
+        class="flex flex-col lg:prose-lg xl:prose-xl 2xl:prose-2xl prose dark:prose-invert prose-slate prose-h1:bg-gradient-to-r prose-h1:py-2 prose-h1:from-emerald-500 prose-h1:via-blue-600 prose-h1:to-purple-500 prose-h1:inline-block prose-h1:text-transparent prose-h1:bg-clip-text prose-h2:text-emerald-500 hover:prose-a:text-emerald-500"
     >
         <!-- <a class="border-b-2 border-transparent py-1 no-underline" href="/docs"> ← All Docs</a> -->
-
         <article>
             <h1>{doc.data.title}</h1>
             <p class="text-slate-500 text-sm">{doc.data.author + " - " + formatDate(doc.data.date)}</p>
             <Content />
         </article>
-        <div class="grid grid-cols-2 p-2 mt-8 md:gap-x-8">
+        <div class="grid w-full grid-cols-2 p-2 mt-8 md:gap-x-8">
             {
                 doc.data.prevDoc ? (
                     <a

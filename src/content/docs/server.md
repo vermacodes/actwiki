@@ -14,7 +14,7 @@ nextDoc: {
 }
 ---
 
-The server you started in docker is a ubuntu VM with following components installed on it.
+The server is a ubuntu VM with following components installed on it.
 
 - Azure CLI
 - Terraform

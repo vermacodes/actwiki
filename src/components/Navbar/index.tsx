@@ -9,7 +9,7 @@ type Props = {
 
 export default function Navbar({ docs }: Props) {
     return (
-        <nav className="text-slate-900 dark:text-slate-100 flex flex-col border-r border-slate-500 min-h-screen min-w-max w-1/5 p-2 md:p-8">
+        <nav className="text-slate-900 dark:text-slate-100 border-r dark:border-slate-800 border-slate-200 flex flex-col min-h-screen min-w-max w-1/5 p-2 md:p-8">
             {/* <div className="flex justify-end w-full mb-5 border-b border-slate-500 pb-2 md:pb-4">
                 <ThemToggle />
             </div> */}
